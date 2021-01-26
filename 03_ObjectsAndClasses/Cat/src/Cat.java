@@ -9,7 +9,7 @@ public class Cat
     static int count;
     private boolean catAlive;
     private final int TOTAL_EYE = 2;
-    private Color color;
+
     public String name;
     public int age;
     public Cat()
@@ -21,9 +21,15 @@ public class Cat
     }
     public Cat(double weight)
     {
-        this.weight = weight;
-        count ++;
-        catAlive = true;
+        if (weight < MIN_WEIGHT || weight > MAX_WEIGHT)
+        {
+            throw new IllegalArgumentException("Вы создаете мертвую кошку");
+        }
+        else {
+            this.weight = weight;
+            count++;
+            catAlive = true;
+        }
     }
     public Cat (String name, int age)
     {
@@ -125,14 +131,6 @@ public class Cat
     public Double getOriginWeight ()
     {
         return originWeight;
-    }
-    public void setColor(Color color)
-    {
-        this.color = color;
-    }
-    public Color getColor()
-    {
-        return color;
     }
     public String getName ()
     {

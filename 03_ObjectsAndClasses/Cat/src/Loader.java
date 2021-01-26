@@ -67,6 +67,6 @@ public class Loader
         legolas.pee();
         System.out.println("Кошка съела " + legolas.getFeedAmount() + " гр.");
         /////////////////////////////
+        Cat trump = new Cat(100);
     }
-
 }
