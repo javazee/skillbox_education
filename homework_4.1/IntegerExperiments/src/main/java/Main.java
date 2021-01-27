@@ -4,7 +4,7 @@ public class Main {
     Container container = new Container();
     container.count += 7843;
 
-    int sum = sumDigits(7862);
+    int sum = sumDigits(-8888);
 
     System.out.println(sum);
   }
@@ -23,6 +23,7 @@ public class Main {
     if (number == null){
       return -1;
     } else {
+    number = Math.abs(number);
     String numberStr = number.toString();
     int sumDigits = 0;
     int lengthOfNumber = numberStr.length();
