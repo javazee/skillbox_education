@@ -20,7 +20,5 @@ public class Main {
     //System.out.println(mashaEarn);
     int moneyAmount = parseInt(petyaEarn) + parseInt(vasyaEarn) + parseInt(mashaEarn);
     System.out.println(moneyAmount);
-
   }
-
 }

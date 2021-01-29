@@ -6,12 +6,12 @@ public class Main {
             int symbolCode = (int) symbol;
             System.out.println(alphabet.charAt(i) + ": " + symbolCode);
         }
+
         String rusAlphabet = "АаБбВвГгДдЕеЖжЗзИиЙйКкЛлНнОоПпРрСсТтУуФфХхЦцЧчЩщШшьыъЭэЮюЯя";
         for(int i =0; i < rusAlphabet.length(); i ++){
             char symbol = rusAlphabet.charAt(i);
             int symbolCode = (int) symbol;
             System.out.println(rusAlphabet.charAt(i) + ": " + symbolCode);
         }
-
     }
 }
