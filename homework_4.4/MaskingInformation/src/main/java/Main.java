@@ -1,9 +1,14 @@
 public class Main {
 
     public static void main(String[] args) {
-        String safe = searchAndReplaceDiamonds("Номер кредитной карты <4008 1234 5678> 8912" , "***");
+        String safe = searchAndReplaceDiamonds("Номер кредитной карты <5896 4668 7898> 5544" , "***");
+        String example1 = searchAndReplaceDiamonds(">>>><<<<777>77>>> 898998 < < 22>874 <  858>" , "***");
+        String example2 = searchAndReplaceDiamonds("<<<5686>" , "***");
+        String example3 = searchAndReplaceDiamonds("<<<5686>7575" , "***");
         System.out.println(safe);
-
+        System.out.println(example1);
+        System.out.println(example2);
+        System.out.println(example3);
     }
     public static String searchAndReplaceDiamonds(String text, String placeholder) {
         // TODO: реализовать метод, если в строке нет <> - вернуть строку без изменений
@@ -13,18 +18,20 @@ public class Main {
             int leftSign = -1;
             int rightSign = 0;
             for (int i = 0; i < initialText.length(); i++) {
-                if (initialText.indexOf("<", leftSign) == i) {
-                    rightSign = i;
-                    text = text + initialText.substring(leftSign + 1, rightSign);
-                    continue;
-                }
-                if (initialText.indexOf(">", rightSign) == i) {
-                    text = text + placeholder;
+                if (String.valueOf(initialText.charAt(i)).equals("<") && leftSign < rightSign){
                     leftSign = i;
-                    if (i == initialText.lastIndexOf(">")) {
-                        text = text + initialText.substring(initialText.lastIndexOf(">") + 1);
+                    if (rightSign != 0) {
+                        text = text + placeholder;
+                    }
+                    text = text + initialText.substring(rightSign , leftSign);
+                } else if (String.valueOf(initialText.charAt(i)).equals(">") && leftSign != -1) {
+                    rightSign = i + 1;
+                    if (i == initialText.length() - 1) {
+                        text = text + placeholder;
                         break;
                     }
+                } else if (i == initialText.length() - 1) {
+                    text = text + placeholder + initialText.substring(rightSign);;
                 }
             }
         }

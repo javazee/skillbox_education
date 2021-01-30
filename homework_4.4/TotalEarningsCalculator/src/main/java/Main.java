@@ -1,3 +1,4 @@
+import static java.lang.Character.*;
 import static java.lang.Integer.*;
 
 public class Main {
@@ -6,19 +7,28 @@ public class Main {
 
     String text = "Вася заработал 5000 рублей, Петя - 7563 рубля, а Маша - 30000 рублей";
     //TODO: напишите ваш код, результат вывести в консоль
-    int vasyaEarnLeft = text.indexOf("л") + 1;
-    int vasyaEarnRight = text.indexOf(" ", text.indexOf("л") + 2);
-    String vasyaEarn = (text.substring(vasyaEarnLeft, vasyaEarnRight)).trim();
-    //System.out.println(vasyaEarn);
-    int petyaEarnLeft = text.indexOf("-") + 1;
-    int petyaEarnRight = text.indexOf(" ", petyaEarnLeft + 2);
-    String petyaEarn = (text.substring(petyaEarnLeft, petyaEarnRight)).trim();
-    //System.out.println(petyaEarn);
-    int mashaEarnLeft = text.lastIndexOf("-");
-    int mashaEarnRight = text.lastIndexOf("р");
-    String mashaEarn = (text.substring(mashaEarnLeft + 1, mashaEarnRight)).trim();
-    //System.out.println(mashaEarn);
-    int moneyAmount = parseInt(petyaEarn) + parseInt(vasyaEarn) + parseInt(mashaEarn);
-    System.out.println(moneyAmount);
+    int secondNumber = 1;
+    int firstNumber = 0;
+    int salarySum = 0;
+    for (int i = 0; i < text.length(); i ++ ){
+      if (getNumericValue(text.charAt(i)) == 1 || getNumericValue(text.charAt(i)) == 2 || getNumericValue(text.charAt(i)) == 3 ||
+              getNumericValue(text.charAt(i)) == 4 || getNumericValue(text.charAt(i)) == 5 || getNumericValue(text.charAt(i)) == 6 ||
+              getNumericValue(text.charAt(i)) == 7 || getNumericValue(text.charAt(i)) == 8 || getNumericValue(text.charAt(i)) == 9) {
+        if (secondNumber > firstNumber) {
+          firstNumber = i;
+          continue;
+        }
+      }
+      if (getNumericValue(text.charAt(i)) != 1 && getNumericValue(text.charAt(i)) != 2 && getNumericValue(text.charAt(i)) != 3 &&
+              getNumericValue(text.charAt(i)) != 4 && getNumericValue(text.charAt(i)) != 5 && getNumericValue(text.charAt(i)) != 6 &&
+              getNumericValue(text.charAt(i)) != 7 && getNumericValue(text.charAt(i)) != 8 && getNumericValue(text.charAt(i)) != 9 &&
+              getNumericValue(text.charAt(i)) != 0){
+        if (secondNumber  < firstNumber) {
+          secondNumber = i ;
+          salarySum = salarySum +  parseInt(text.substring(firstNumber, secondNumber));
+        }
+      }
+    }
+    System.out.println(salarySum);
   }
 }
