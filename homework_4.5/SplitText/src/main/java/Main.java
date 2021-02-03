@@ -1,6 +1,7 @@
 public class Main {
 
   public static void main(String[] args) {
+
     System.out.println(splitTextIntoWords("On the first Wednesday in January, America saw an insurrection.\n" +
             " The second, an impeachment. The third, an inauguration. And on the fourth Wednesday in January, everyone got real fired up about\n" +
             " a video game retailer’s stock price.\n" +

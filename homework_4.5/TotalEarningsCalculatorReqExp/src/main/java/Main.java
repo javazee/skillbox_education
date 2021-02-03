@@ -7,6 +7,7 @@ public class Main {
 
   public static int calculateSalarySum(String text){
     //TODO: реализуйте метод
+
     String onlyDigit = (text.replaceAll("[^0-9]"," ")).trim();
     if (onlyDigit.equals("")){
       return 0;
