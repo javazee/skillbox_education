@@ -1,3 +1,6 @@
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Main {
 
   public static void main(String[] args) {
@@ -7,17 +10,13 @@ public class Main {
 
   public static int calculateSalarySum(String text){
     //TODO: реализуйте метод
-
-    String onlyDigit = (text.replaceAll("[^0-9]"," ")).trim();
-    if (onlyDigit.equals("")){
-      return 0;
+    Pattern pattern = Pattern.compile("\\d+");
+    Matcher mather = pattern.matcher(text);
+    int sum = 0;
+    while (mather.find()){
+      sum += Integer.parseInt(mather.group());
     }
-    String[] salaries = onlyDigit.split("\\s+");
-    int salarySum = 0;
-    for (int i = 0; i < salaries.length; i++) {
-      salarySum = salarySum + Integer.parseInt(salaries[i]);
-    }
-    return salarySum;
+    return sum;
   }
 
 }
