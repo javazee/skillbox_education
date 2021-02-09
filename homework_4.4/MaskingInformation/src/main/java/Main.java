@@ -1,11 +1,13 @@
+import java.util.ArrayList;
+
 public class Main {
 
     public static void main(String[] args) {
-        String safe = searchAndReplaceDiamonds("Номер кредитной карты <5896 4668 7898> 5544" , "***");
-        String example1 = searchAndReplaceDiamonds("><777>77>> 898998 < < 22>874 <  858>" , "***");
+        String safe = searchAndReplaceDiamonds("Номер кредитной карты <<5896> <4668> <8898>> 5544" , "***");
+        String example1 = searchAndReplaceDiamonds("Номер кредитной карты <<5896>> 4668 <<8898>> 5544" , "***");
         String example2 = searchAndReplaceDiamonds("<5686>>" , "***");
         String example3 = searchAndReplaceDiamonds("<<5686>>" , "***");
-        String example4 = searchAndReplaceDiamonds("номер < 8888 < 5555 > 8888 > some text <5555>", "***");
+        String example4 = searchAndReplaceDiamonds("номер <8888 < 5555 > 8888 > some text <5555>", "***");
 
         System.out.println(safe);
         System.out.println(example1);
@@ -16,38 +18,35 @@ public class Main {
     public static String searchAndReplaceDiamonds(String text, String placeholder) {
         // TODO: реализовать метод, если в строке нет <> - вернуть строку без изменений
         // проверка на соответствие количества левых скобочек количеству правых
-        int leftSignSum = 0;
-        int rightSignSum = 0;
+        ArrayList<Integer> leftBrace= new ArrayList<>();
+        ArrayList<Integer> rightBrace= new ArrayList<>();
         for (int i = 0; i < text.length(); i++){
             if (String.valueOf(text.charAt(i)).equals("<")){
-                leftSignSum++;
+                leftBrace.add(i);
             }
             if (String.valueOf(text.charAt(i)).equals(">")){
-                rightSignSum++;
+                rightBrace.add(i);
             }
         }
-        if (leftSignSum != rightSignSum){
+        if (leftBrace.size() != rightBrace.size()){
             return text;
-        } else if (text.indexOf("<") != -1 && text.indexOf(">") != -1) {
+        } else if (text.contains("<")) {
             String initialText = text;
+            leftBrace.add(text.length());
             text ="";
             int leftSign = -1;
             int rightSign = 0;
-            for (int i = 0; i < initialText.length(); i++) {
-                if (String.valueOf(initialText.charAt(i)).equals("<") && leftSign < rightSign){
-                    leftSign = i;
-                    if (rightSign != 0) {
-                        text = text + placeholder;
-                    }
+            for (int i = 0; i < rightBrace.size(); i++) {
+                if (leftBrace.get(i) < rightBrace.get(i) && leftSign < rightSign ){
+                    leftSign = leftBrace.get(i);
                     text = text + initialText.substring(rightSign , leftSign);
-                } else if (String.valueOf(initialText.charAt(i)).equals(">") && leftSign != -1) {
-                    rightSign = i + 1;
-                    if (i == initialText.length() - 1) {
-                        text = text + placeholder;
-                        break;
+                }
+                if (rightBrace.get(i) > leftBrace.get(i) && rightBrace.get(i) < leftBrace.get(i + 1)){
+                    rightSign = rightBrace.get(i) + 1;
+                    text = text + placeholder;
+                    if (i == rightBrace.size() - 1){
+                        text = text + initialText.substring(rightSign);
                     }
-                } else if (i == initialText.length() - 1) {
-                    text = text + placeholder + initialText.substring(rightSign);;
                 }
             }
         }
