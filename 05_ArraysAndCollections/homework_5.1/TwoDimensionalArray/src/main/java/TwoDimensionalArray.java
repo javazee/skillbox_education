@@ -8,7 +8,16 @@ public class TwoDimensionalArray {
         // [X,  , X]
         // [ , X,  ]
         // [X,  , X]
-
-        return new char[0][0];
+        char[][] diagonal = new char[size][size];
+        for (int i = 0; i < size; i++){
+            for (int j = 0; j < size; j++){
+                if (i == j || size - j - 1  == i ){
+                    diagonal[i][j] = symbol;
+                } else {
+                    diagonal[i][j] = ' ';
+                }
+            }
+        }
+        return diagonal;
     }
 }
