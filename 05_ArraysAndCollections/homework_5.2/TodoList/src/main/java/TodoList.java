@@ -14,7 +14,7 @@ public class TodoList {
             todoList.add(index, todo);
         } else {
             todoList.add(todo);
-            System.out.println("Неверный ввод! Задача помещена в конец списка");
+            System.out.println("ERROR: Invalid input. The new task is placed at the end of the list");
         }
     }
 
@@ -24,7 +24,7 @@ public class TodoList {
         if (index < todoList.size()) {
             todoList.set(index, todo);
         } else {
-            System.out.println("Неверный ввод! Список остался без изменений");
+            System.out.println("ERROR: Invalid input. The list remains unchanged");
         }
     }
 
@@ -34,7 +34,7 @@ public class TodoList {
         if (index < todoList.size()) {
             todoList.remove(index);
         } else {
-            System.out.println("Неверный ввод! Список остался без изменений");
+            System.out.println("ERROR: Invalid input. The list remains unchanged");
         }
     }
     public ArrayList<String> getTodos() {

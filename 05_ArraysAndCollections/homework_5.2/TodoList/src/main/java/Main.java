@@ -1,104 +1,57 @@
-import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main {
     private static TodoList todoList = new TodoList();
 
     public static void main(String[] args) {
         // TODO: написать консольное приложение для работы со списком дел todoList
-        System.out.println("Введите задачу для добавления в список:");
-        Scanner getTask = new Scanner(System.in);
-        String task = getTask.nextLine();
-        todoList.add(task);
-        System.out.println("Введите задачу для добавления в список:");
-        task = getTask.nextLine();
-        System.out.println("Присвоить приоритет для задачи? 1 - да; 0 - нет");
-        Scanner action  = new Scanner(System.in);
-        int number = action.nextInt();
-        if (number == 0) {
-            todoList.add(task);
-        } else {
-            System.out.println("Введите приоритет для задачи от 1 до " + (todoList.getTodos().size() + 1) + " ,где 1 - первый пункт в списке");
-            number = action.nextInt();
-            if (number == todoList.getTodos().size() + 1){
-                todoList.add(task);
-            } else {
-                todoList.add(number - 1, task);
-            }
-        }
-        System.out.println("Нажмите: 0 - если хотите вывести список активных задач\n" +
-                "\t\t1 - если хотите добавить новую задачу\n" +
-                "\t\t2 - если хотите удалить задачу\n" +
-                "\t\t3 - если хотите заменить задачу\n" +
-                "\t\t4 - если хотите выйти из программы");
-        number = action.nextInt();
-        while (number != 4) {
-            if (number == 0) {
-                System.out.println("Список активных задач: ");
-                for (int i = 0; i < todoList.getTodos().size(); i ++){
-                    System.out.println((i + 1) + " - " + todoList.getTodos().get(i));
+        System.out.println("""
+                Команды управления списком TODO:
+                \tLIST — выводит дела с их порядковыми номерами;
+                \tADD — добавляет дело в конец списка или дело на определённое место, сдвигая остальные дела вперёд,
+                \t\tесли указать номер; если указан несуществующий индекс - добавить в конец списка.
+                \tEDIT — заменяет дело с указанным номером; если указан несуществующий индекс - ничего не делать.
+                \tDELETE — удаляет; если указан несуществующий индекс - ничего не делать.
+                \tEXIT — выход из программы.""");
+        System.out.println("Input command:");
+        Scanner command = new Scanner(System.in);
+        String task = command.nextLine();
+        Pattern pattern = Pattern.compile("(ADD|EDIT|DELETE)(\\s*\\d*)?(\\s*.*)?");
+        Matcher match = pattern.matcher(task);
+        do {
+            if (task.contains("LIST")) {
+                for (int i = 0; i < todoList.getTodos().size(); i++) {
+                    System.out.println("\t" + (i + 1) + " - " + todoList.getTodos().get(i));
                 }
-                System.out.println("Нажмите: 1 - если хотите добавить новую задачу\n" +
-                        "\t\t2 - если хотите удалить задачу\n" +
-                        "\t\t3 - если хотите заменить задачу\n" +
-                        "\t\t4 - если хотите выйти из программы");
-                number = action.nextInt();
-            }
-            if (number == 1) {
-                System.out.println("Введите задачу для добавления в список: ");
-                task = getTask.nextLine();
-                System.out.println("Присвоить приоритет для задачи? 1 - да; 0 - нет");
-                number = action.nextInt();
-                if (number == 0) {
-                    todoList.add(task);
+                System.out.println("Input command:");
+                task = command.nextLine();
+                match = pattern.matcher(task);
+            }else if (task.contains("ADD")) {
+                if (match.find() && match.group(2).trim().matches("\\d+")){
+                    todoList.add(Integer.parseInt(match.group(2).trim()) - 1, match.group(3).trim());
                 } else {
-                    System.out.println("Введите приоритет для задачи от 1 до " + (todoList.getTodos().size() + 1) + " ,где 1 - первый пункт в списке");
-                    number = action.nextInt();
-                    if (number == todoList.getTodos().size() + 1){
-                        todoList.add(task);
-                    } else {
-                        todoList.add(number - 1, task);
-                    }
+                    todoList.add(match.group(3).trim());
                 }
-                System.out.println("Нажмите: 0 - если хотите вывести список активных задач\n" +
-                        "\t\t1 - если хотите добавить новую задачу\n" +
-                        "\t\t2 - если хотите удалить задачу\n" +
-                        "\t\t3 - если хотите заменить задачу\n" +
-                        "\t\t4 - если хотите выйти из программы");
-                number = action.nextInt();
-            }
-            if (number == 2){
-                System.out.println("Введите номер удаляемой задачи из списка ниже: ");
-                for (int i = 0; i < todoList.getTodos().size(); i ++){
-                    System.out.println((i + 1) + " - " + todoList.getTodos().get(i));
+                System.out.println("Input command:");
+                task = command.nextLine();
+                match = pattern.matcher(task);
+            } else if (task.contains("EDIT")) {
+                if (match.find()) {
+                    todoList.edit(match.group(3).trim(), Integer.parseInt(match.group(2).trim()) - 1);
                 }
-                number = action.nextInt();
-                todoList.delete(number - 1);
-                System.out.println("Нажмите: 0 - если хотите вывести список активных задач\n" +
-                        "\t\t1 - если хотите добавить новую задачу\n" +
-                        "\t\t2 - если хотите удалить задачу\n" +
-                        "\t\t3 - если хотите заменить задачу\n" +
-                        "\t\t4 - если хотите выйти из программы");
-                number = action.nextInt();
-            }
-            if (number == 3){
-                System.out.println("Введите номер удаляемой задачи из списка ниже: ");
-                for (int i = 0; i < todoList.getTodos().size(); i ++){
-                    System.out.println((i + 1) + " - " + todoList.getTodos().get(i));
+                System.out.println("Input command:");
+                task = command.nextLine();
+                match = pattern.matcher(task);
+            } else if (task.contains("DELETE")) {
+                if (match.find()) {
+                    todoList.delete(Integer.parseInt(match.group(2).trim()) - 1);
                 }
-                number = action.nextInt();
-                System.out.println("Введите новую задачу: ");
-                task = getTask.nextLine();
-                todoList.edit(task, number - 1);
-                System.out.println("Нажмите: 0 - если хотите вывести список активных задач\n" +
-                        "\t\t1 - если хотите добавить новую задачу\n" +
-                        "\t\t2 - если хотите удалить задачу\n" +
-                        "\t\t3 - если хотите заменить задачу\n" +
-                        "\t\t4 - если хотите выйти из программы");
-                number = action.nextInt();
+                System.out.println("Input command:");
+                task = command.nextLine();
+                match = pattern.matcher(task);
             }
-        }
-
-
+        } while (!task.contains("EXIT"));
     }
 }
