@@ -1,7 +1,10 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class TodoList {
     ArrayList<String> todoList = new ArrayList<>();
+    List<String> unchangeableList = Collections.unmodifiableList(todoList);
     public void add(String todo) {
         // TODO: добавьте переданное дело в конец списка
         todoList.add(todo);
@@ -37,9 +40,9 @@ public class TodoList {
             System.out.println("ERROR: Invalid input. The list remains unchanged");
         }
     }
-    public ArrayList<String> getTodos() {
+    public List<String> getTodos() {
         // TODO: вернуть список дел
-        return todoList;
+        return unchangeableList;
     }
 
 }

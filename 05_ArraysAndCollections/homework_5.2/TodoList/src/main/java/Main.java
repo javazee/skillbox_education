@@ -25,33 +25,24 @@ public class Main {
                 for (int i = 0; i < todoList.getTodos().size(); i++) {
                     System.out.println("\t" + (i + 1) + " - " + todoList.getTodos().get(i));
                 }
-                System.out.println("Input command:");
-                task = command.nextLine();
-                match = pattern.matcher(task);
             }else if (task.contains("ADD")) {
                 if (match.find() && match.group(2).trim().matches("\\d+")){
                     todoList.add(Integer.parseInt(match.group(2).trim()) - 1, match.group(3).trim());
                 } else {
                     todoList.add(match.group(3).trim());
                 }
-                System.out.println("Input command:");
-                task = command.nextLine();
-                match = pattern.matcher(task);
             } else if (task.contains("EDIT")) {
                 if (match.find()) {
                     todoList.edit(match.group(3).trim(), Integer.parseInt(match.group(2).trim()) - 1);
                 }
-                System.out.println("Input command:");
-                task = command.nextLine();
-                match = pattern.matcher(task);
             } else if (task.contains("DELETE")) {
                 if (match.find()) {
                     todoList.delete(Integer.parseInt(match.group(2).trim()) - 1);
                 }
-                System.out.println("Input command:");
-                task = command.nextLine();
-                match = pattern.matcher(task);
             }
+            System.out.println("Input command:");
+            task = command.nextLine();
+            match = pattern.matcher(task);
         } while (!task.contains("EXIT"));
     }
 }
