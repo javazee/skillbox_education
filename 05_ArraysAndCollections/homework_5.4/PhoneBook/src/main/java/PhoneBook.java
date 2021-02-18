@@ -12,44 +12,59 @@ public class PhoneBook {
             if (!getRightFormat(phone).isEmpty()) {
                 phonebook.put(getRightFormat(phone), name);
             }
+        } else {
+            System.out.println("Неверный формат ввода");
         }
     }
+
     public String getNameByPhone(String phone) {
         // формат одного контакта "Имя - Телефон"
         // если контакт не найдены - вернуть пустую строку
-        if (!phonebook.containsKey(getRightFormat(phone))) {
-            System.out.println("Такого номера нет в телефонной книге.");
-            System.out.println("Введите имя абонента для номера " +  getRightFormat(phone));
-            Scanner scanner = new Scanner(System.in);
-            String input = scanner.nextLine();
-            Pattern patternName = Pattern.compile("[А-Яа-я]+");
-            Matcher name = patternName.matcher(input);
-            if (name.find()){
-                phonebook.put(getRightFormat(phone), name.group().trim());
+        String nameByPhone = "";
+        if (Pattern.matches("[0-9]{11}",getRightFormat(phone))){
+            if (!phonebook.containsKey(getRightFormat(phone))) {
+                System.out.println("Такого номера нет в телефонной книге.");
+                System.out.println("Введите имя абонента для номера " +  getRightFormat(phone));
+                Scanner scanner = new Scanner(System.in);
+                String input = scanner.nextLine();
+                Pattern patternName = Pattern.compile("[А-Яа-я]+");
+                Matcher name = patternName.matcher(input);
+                if (name.find()){
+                    phonebook.put(getRightFormat(phone), name.group().trim());
+                }
+            }
+            for (String contact: getAllContacts()){
+                if (contact.contains(getRightFormat(phone))){
+                    nameByPhone = contact;
+                }
             }
         }
-        return phonebook.get(getRightFormat(phone)) + " - " + getRightFormat(phone);
+        else {
+            System.out.println("Неверный формат ввода");
+        }
+        return nameByPhone;
     }
 
     public Set<String> getPhonesByName(String name) {
         // формат одного контакта "Имя - Телефон"
         // если контакт не найден - вернуть пустой TreeSet
-        if (!phonebook.containsValue(name)) {
-            System.out.println("Такого имени нет в телефонной книге.");
-            System.out.println("Введите номер для абонента " + name);
-            Scanner scanner = new Scanner(System.in);
-            String input = scanner.nextLine();
-            Pattern patternPhone = Pattern.compile("[\\+\\d]+.+");
-            Matcher phone = patternPhone.matcher(input);
-            if (phone.find()) {
-                phonebook.put(getRightFormat(phone.group()), name);
-            }
-        }
-        Set<Map.Entry<String,String>> entrySet = phonebook.entrySet();
         Set<String> phoneByName = new HashSet<>();
-        for (Map.Entry<String,String> contact : entrySet) {
-            if (name.contains(contact.getValue())) {
-                phoneByName.add(name + " - " + contact.getKey());
+        if (Pattern.matches("[A-Za-z-А-Яа-яЁё]+", name)) {
+            if (!phonebook.containsValue(name)) {
+                System.out.println("Такого имени нет в телефонной книге.");
+                System.out.println("Введите номер для абонента " + name);
+                Scanner scanner = new Scanner(System.in);
+                String input = scanner.nextLine();
+                Pattern patternPhone = Pattern.compile("[\\+\\d-]+.+");
+                Matcher phone = patternPhone.matcher(input);
+                if (phone.find()) {
+                    phonebook.put(getRightFormat(phone.group()), name);
+                }
+            }
+            for (String contact : getAllContacts()) {
+                if (contact.contains(name)) {
+                    phoneByName.add(contact);
+                }
             }
         }
         return phoneByName;
@@ -67,10 +82,10 @@ public class PhoneBook {
             names.add(value);
             phones.add(key);
         }
-        for (int i = 0; i < names.size(); i++){
+        for (int i = 0; i < phones.size(); i++){
             if (i != 0 && names.get(i).equals(names.get(i - 1))){
-                allContacts.add(allContacts.get(i-1) + ", " + phones.get(i));
-                allContacts.remove(i-1);
+                allContacts.add(allContacts.get(allContacts.size()-1) + ", " + phones.get(i));
+                allContacts.remove(allContacts.size()-2);
                 continue;
             }
             allContacts.add(names.get(i) + " - " + phones.get(i));
@@ -90,7 +105,6 @@ public class PhoneBook {
             }
             return phone;
         } else {
-            System.out.println("Неверный формат ввода");
             return "";
         }
     }
