@@ -1,12 +1,32 @@
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.TreeSet;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class CoolNumbers {
 
     public static List<String> generateCoolNumbers() {
-        return Collections.emptyList();
+        int size = 100; //количество сгенерированных номеров
+        Map <Integer, String> letters = new TreeMap<>();
+        String[] listOfLetters = new String[]{"А", "В", "Е", "К", "М", "Н", "О", "Р", "С", "Т", "У", "Х"};
+        for (int i = 0; i < listOfLetters.length; i++){
+            letters.put(i, listOfLetters[i]);
+        }
+        List <String> coolNumbers = new ArrayList<>();
+        for (int i = 0; i < size; i ++) {
+            StringBuilder coolNumber = new StringBuilder();
+            for (int j = 0; j < 6; j++) {
+                if (j == 0 || j > 3) {
+                    int letter = (int) Math.round(Math.random() * (letters.size() - 1));
+                    coolNumber.append(letters.get(letter));
+                } else {
+                    int number = (int) Math.round(Math.random() * 9);
+                    coolNumber.append(number);
+                }
+            }
+            int region = (int) Math.round(Math.random() * 199);
+            coolNumber.append(region);
+            coolNumbers.add(coolNumber.toString());
+        }
+        return coolNumbers;
     }
 
     public static boolean bruteForceSearchInList(List<String> list, String number) {

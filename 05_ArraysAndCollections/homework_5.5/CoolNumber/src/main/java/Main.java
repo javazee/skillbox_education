@@ -7,6 +7,8 @@ public class Main {
      */
 
     public static void main(String[] args) {
-
+        for (String numbers: CoolNumbers.generateCoolNumbers()){
+            System.out.println(numbers);
+        }
     }
 }
