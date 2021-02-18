@@ -25,7 +25,7 @@ public class PhoneBook {
             Pattern patternName = Pattern.compile("[А-Яа-я]+");
             Matcher name = patternName.matcher(input);
             if (name.find()){
-                phonebook.put(getRightFormat(phone), name.group());
+                phonebook.put(getRightFormat(phone), name.group().trim());
             }
         }
         return phonebook.get(getRightFormat(phone)) + " - " + getRightFormat(phone);
@@ -48,7 +48,7 @@ public class PhoneBook {
         Set<Map.Entry<String,String>> entrySet = phonebook.entrySet();
         Set<String> phoneByName = new HashSet<>();
         for (Map.Entry<String,String> contact : entrySet) {
-            if (name.equals(contact.getValue())) {
+            if (name.contains(contact.getValue())) {
                 phoneByName.add(name + " - " + contact.getKey());
             }
         }
@@ -58,28 +58,40 @@ public class PhoneBook {
     public Set<String> getAllContacts() {
         // формат одного контакта "Имя - Телефон"
         // если контактов нет в телефонной книге - вернуть пустой TreeSet
-        Set<String> allContacts = new TreeSet<>();
+        ArrayList<String> allContacts = new ArrayList<>();
+        ArrayList<String> names = new ArrayList<>();
+        ArrayList<String> phones = new ArrayList<>();
         for (Map.Entry<String, String> stringIntegerEntry : phonebook.entrySet()) {
             String key = stringIntegerEntry.getKey();
-            allContacts.add(phonebook.get(key) + " - " + key);
+            String value = stringIntegerEntry.getValue();
+            names.add(value);
+            phones.add(key);
         }
-        return allContacts;
+        for (int i = 0; i < names.size(); i++){
+            if (i != 0 && names.get(i).equals(names.get(i - 1))){
+                allContacts.add(allContacts.get(i-1) + ", " + phones.get(i));
+                allContacts.remove(i-1);
+                continue;
+            }
+            allContacts.add(names.get(i) + " - " + phones.get(i));
+        }
+        return new TreeSet<>(allContacts);
     }
     public String getRightFormat (String phone){
         Pattern space = Pattern.compile("\\D");
         Matcher number = space.matcher(phone);
         Pattern pattern = Pattern.compile("\\b([78])?\\d{10}\\b");
         Matcher onlyDigit = pattern.matcher(number.replaceAll(""));
-        if (!onlyDigit.find()){
-            System.out.println("Неверный формат ввода");
-            return "";
-        } else {
+        if (onlyDigit.find()){
             if (onlyDigit.toString().length() == 10) {
                 phone = "7" + onlyDigit.group();
             } else {
                 phone = onlyDigit.group().replaceFirst("[78]?", "7");
             }
             return phone;
+        } else {
+            System.out.println("Неверный формат ввода");
+            return "";
         }
     }
 
