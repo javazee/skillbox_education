@@ -1,3 +1,9 @@
+import org.checkerframework.checker.units.qual.A;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class Main {
     /*
     TODO:
@@ -7,8 +13,13 @@ public class Main {
      */
 
     public static void main(String[] args) {
-        for (String numbers: CoolNumbers.generateCoolNumbers()){
-            System.out.println(numbers);
-        }
+//        for (String numbers: CoolNumbers.generateCoolNumbers()){
+//            System.out.println(numbers);
+//        }
+        List <String> list = new ArrayList<>(CoolNumbers.generateCoolNumbers());
+        String number = list.get((int) Math.round(Math.random() * 2000000));
+        CoolNumbers.bruteForceSearchInList(list, number);
+        Collections.sort(list);
     }
+
 }

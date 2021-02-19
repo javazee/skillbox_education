@@ -1,10 +1,9 @@
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class CoolNumbers {
 
     public static List<String> generateCoolNumbers() {
-        int size = 100; //количество сгенерированных номеров
+        int size = 2000000; //количество сгенерированных номеров
         Map <Integer, String> letters = new TreeMap<>();
         String[] listOfLetters = new String[]{"А", "В", "Е", "К", "М", "Н", "О", "Р", "С", "Т", "У", "Х"};
         for (int i = 0; i < listOfLetters.length; i++){
@@ -30,6 +29,13 @@ public class CoolNumbers {
     }
 
     public static boolean bruteForceSearchInList(List<String> list, String number) {
+        long startTime = System.nanoTime();
+        for (String string: list) {
+            if (string.equals(number)){
+                long endTime = System.nanoTime();
+                System.out.println("Поиск перебором: номер найден, поиск занял " + (endTime - startTime) + " нс");
+            }
+        }
         return false;
     }
 
