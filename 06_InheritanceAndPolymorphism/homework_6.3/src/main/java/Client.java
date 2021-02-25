@@ -1,16 +1,23 @@
 public abstract class Client {
-
+    double amount = 0;
     public double getAmount() {
-        //TODO: реализуйте метод и удалите todo
-        return 0;
+        return amount;
     }
 
     public void put(double amountToPut) {
-        //TODO: реализуйте метод и удалите todo
+        if (amountToPut > 0){
+            amount += amountToPut;
+        } else {
+            System.out.println("Некорректный ввод. Сумма на счете не изменилась.");
+        }
     }
 
     public void take(double amountToTake) {
-        //TODO: реализуйте метод и удалите todo
+        if (amountToTake <= getAmount()){
+            amount = getAmount() - amountToTake;
+        } else {
+            System.out.println("Недостаточно средств на счете");
+        }
     }
 
 }
