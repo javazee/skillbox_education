@@ -1,13 +1,11 @@
-import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
         BankAccount bankAccount = new BankAccount();
         DepositAccount depositAccount = new DepositAccount();
         CardAccount cardAccount = new CardAccount();
-        bankAccount.amount = 2000;
-        depositAccount.amount = 4000;
-        cardAccount.amount = 2000;
+        bankAccount.setAmount(2000);
+        depositAccount.setAmount(4000);
+        cardAccount.setAmount(2000);
         System.out.println("***********************************************\n" +
                 "\t\tМанипуляции с банковским счетом\n" +
                 "***********************************************");

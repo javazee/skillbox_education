@@ -2,13 +2,13 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class DepositAccount extends BankAccount {
-    Calendar lastIncome = new GregorianCalendar(1000, 0 , 1);
-    public void take(double amountToTake) {
+    private Calendar lastIncome = new GregorianCalendar(1000, 0 , 1);
+    protected void take(double amountToTake) {
         //TODO: реализуйте метод и удалите todo
-        if (amountToTake <= amount) {
+        if (amountToTake <= getAmount()) {
             long difference = (Calendar.getInstance().getTimeInMillis() - getTime().getTimeInMillis())/(24 * 60 * 60 * 1000);
             if (difference >= 30) {
-                amount = amount - amountToTake;
+                setAmount(getAmount() - amountToTake);
                 lastIncome = Calendar.getInstance();
                 System.out.println("Сумма средств на счете после снятия: " + getAmount() + " руб.");
             } else {
@@ -18,10 +18,10 @@ public class DepositAccount extends BankAccount {
             System.out.println("Недостаточно средств для снятия. Вам доступно " + getAmount() + " руб.");
         }
     }
-    public void setTime (int year, int month, int day){
+    protected void setTime (int year, int month, int day){
         lastIncome.set(year, month, day);
     }
-    public Calendar getTime (){
+    private Calendar getTime (){
         return lastIncome;
     }
 }
