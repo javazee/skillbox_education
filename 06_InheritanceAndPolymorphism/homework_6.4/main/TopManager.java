@@ -1,11 +1,11 @@
 public class TopManager implements Employee{
-    static double salary;
-    static String name;
+    double salary;
     static final double fixedSalary = 150000;
+    Company company;
 
-    public TopManager (){
-        name = getName();
+    public TopManager (Company company){
         salary = getMonthSalary();
+        this.company = company;
     }
 
     @Override
@@ -17,8 +17,15 @@ public class TopManager implements Employee{
         }
     }
 
-    public String getName() {
-        String[] names = new String[]{"ElonMusk", "JeffBezos", "Galickiy", "Tinkoff"};
-        return names[(int) Math.round(Math.random() * (names.length - 1))];
+    @Override
+    public double getSalary() {
+        return salary;
+    }
+
+    @Override
+    public int compareTo(Employee o) {
+        if (this.salary == o.getSalary()){
+            return 0;
+        } else return  this.salary > o.getSalary()? -1: 1;
     }
 }

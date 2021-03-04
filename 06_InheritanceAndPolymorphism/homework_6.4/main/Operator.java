@@ -1,17 +1,25 @@
 public class Operator implements Employee{
-    static double salary;
-    static String name;
+    double salary;
+    Company company;
 
-    public Operator (){
-        name = getName();
+    public Operator (Company company){
         salary = getMonthSalary();
+        this.company = company;
     }
     @Override
     public double getMonthSalary() {
         return Math.round(Math.random() * (50000 - 30000) + 20000);
     }
-    public String getName() {
-        String[] names = new String[]{"Petya", "Dima", "Vasya", "Valera", "Semenych", "Augusto", "SanSanych", "Katya", "Masha", "Vova", "Petrovich", "Olga", "Irina"};
-        return names[(int) Math.round(Math.random() * (names.length - 1))];
+
+    @Override
+    public double getSalary() {
+        return salary;
+    }
+
+    @Override
+    public int compareTo(Employee o) {
+        if (this.salary == o.getSalary()){
+            return 0;
+        } else return  this.salary > o.getSalary()? -1: 1;
     }
 }
