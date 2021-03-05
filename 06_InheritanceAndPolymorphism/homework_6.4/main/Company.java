@@ -11,36 +11,28 @@ public class Company {
     List<Employee> listOfEmployee = new ArrayList<>();
 
     void hire(Employee employee) {
-        if (employee instanceof TopManager) {
-            listOfEmployee.add(new TopManager(this));
-
-        } else if (employee instanceof Manager) {
-            new Manager(this);
-            listOfEmployee.add(new Manager(this));
-        } else {
-            new Operator(this);
-            listOfEmployee.add(new Operator(this));
-        }
+        listOfEmployee.add(employee);
     }
 
     void hireAll(int number, Employee employee) {
-        List<Employee> newStaff = new ArrayList<>();
         if (employee instanceof TopManager){
-            for (int i = 0; i < number; i++) {
-                newStaff.add(new TopManager(this));
+            listOfEmployee.add(employee);
+            for (int i = 0; i < number - 1; i++) {
+                listOfEmployee.add(new TopManager(this));
             }
         }
         if (employee instanceof Manager){
-            for (int i = 0; i < number; i++) {
-                newStaff.add(new Manager(this));
+            listOfEmployee.add(employee);
+            for (int i = 0; i < number - 1; i++) {
+                listOfEmployee.add(new Manager(this));
             }
         }
         if (employee instanceof Operator){
-            for (int i = 0; i < number; i++) {
-                newStaff.add(new Operator(this));
+            listOfEmployee.add(employee);
+            for (int i = 0; i < number - 1; i++) {
+                listOfEmployee.add(new Operator(this));
             }
         }
-        listOfEmployee.addAll(newStaff);
     }
     void fire(int count) {
         if (count < getCompanySize()) {
