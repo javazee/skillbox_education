@@ -16,9 +16,12 @@ public class Main {
         while (true) {
             String command = scanner.nextLine();
             String[] tokens = command.split("\\s+", 2);
-
             if (tokens[0].equals("add")) {
-                executor.addCustomer(tokens[1]);
+                try {
+                    executor.addCustomer(tokens[1]);
+                } catch (ArrayIndexOutOfBoundsException | IllegalArgumentException ex){
+                    System.out.println(ex.getMessage());
+                }
             } else if (tokens[0].equals("list")) {
                 executor.listCustomers();
             } else if (tokens[0].equals("remove")) {
