@@ -25,7 +25,8 @@ public class RouteCalculatorTest extends TestCase {
     Station station31;
     Station station32;
     Station station33;
-    List<Station> connections;
+    List<Station> connections12;
+    List<Station> connections23;
 
     @Override
     protected void setUp() throws Exception {
@@ -81,12 +82,14 @@ public class RouteCalculatorTest extends TestCase {
         stationIndex.addStation(station31);
         stationIndex.addStation(station32);
         stationIndex.addStation(station33);
-        connections = new ArrayList<>();
-        connections.add(station13);
-        connections.add(station23);
-        connections.add(station22);
-        connections.add(station32);
-        stationIndex.addConnection(connections);
+        connections12 = new ArrayList<>();
+        connections23 = new ArrayList<>();
+        connections12.add(station13);
+        connections12.add(station23);
+        connections23.add(station22);
+        connections23.add(station32);
+        stationIndex.addConnection(connections12);
+        stationIndex.addConnection(connections23);
         calculator = new RouteCalculator(stationIndex);
     }
 
@@ -118,6 +121,7 @@ public class RouteCalculatorTest extends TestCase {
         expected.add(station11);
         expected.add(station12);
         expected.add(station13);
+        expected.add(station23);
         expected.add(station22);
         expected.add(station21);
         assertEquals(expected, actual);
@@ -131,8 +135,19 @@ public class RouteCalculatorTest extends TestCase {
         expected.add(station11);
         expected.add(station12);
         expected.add(station13);
+        expected.add(station23);
+        expected.add(station22);
         expected.add(station32);
         expected.add(station33);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    @DisplayName("Передан маршрут из одной станции")
+    public void testGetShortestRouteWithOnlyOneStation(){
+        List<Station> actual =  calculator.getShortestRoute(station24, station24);
+        List<Station> expected = new ArrayList<>();
+        expected.add(station24);
         assertEquals(expected, actual);
     }
 

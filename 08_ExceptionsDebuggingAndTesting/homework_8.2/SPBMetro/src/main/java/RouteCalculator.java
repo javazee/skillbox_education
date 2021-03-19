@@ -93,11 +93,12 @@ public class RouteCalculator {
                     if (route.isEmpty() || route.size() > way.size()) {
                         route.clear();
                         route.addAll(way);
+                        return route;
                     }
                 }
             }
         }
-        return route;
+        return null;
     }
 
     private boolean isConnected(Station station1, Station station2) {
