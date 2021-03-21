@@ -22,7 +22,7 @@ public class RouteCalculator {
         }
 
         route = getRouteWithOneConnection(from, to);
-        if (route != null) {
+        if (route != null && !route.isEmpty()) {
             return route;
         }
 
@@ -93,12 +93,11 @@ public class RouteCalculator {
                     if (route.isEmpty() || route.size() > way.size()) {
                         route.clear();
                         route.addAll(way);
-                        return route;
                     }
                 }
             }
         }
-        return null;
+        return route;
     }
 
     private boolean isConnected(Station station1, Station station2) {
