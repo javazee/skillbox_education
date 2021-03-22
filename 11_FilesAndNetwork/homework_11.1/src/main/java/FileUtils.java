@@ -1,17 +1,17 @@
 import java.io.File;
+import java.util.Objects;
 
 public class FileUtils {
-    private static long size = 0;
-
     public static long calculateFolderSize(String path) {
         File file = new File(path);
+        long size = 0;
         if (file.exists()) {
             if (file.isDirectory()) {
-                for (File files : file.listFiles()) {
+                for (File files : Objects.requireNonNull(file.listFiles())) {
                     if (files.isDirectory()) {
-                        calculateFolderSize(files.getAbsolutePath());
+                            size += calculateFolderSize(files.getAbsolutePath());
                     } else if (files.isFile()) {
-                        size = size + files.length();
+                        size += + files.length();
                     }
                 }
                 return size;
