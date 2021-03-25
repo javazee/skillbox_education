@@ -6,10 +6,14 @@ public class Main {
                 "homework_11.3\\src\\test\\resources\\movementList.csv";
         Movements expenseMovement = new Movements(path);
         Movements incomeMovement = new Movements(path);
+        Movements expenseMovementByItem = new Movements(path);
         expense.addSum(expenseMovement.getExpenseSum());
         income.addSum(incomeMovement.getIncomeSum());
         expense.printInfo();
         income.printInfo();
-
+        System.out.println("\nСуммы расходов по организациям:");
+        for (ExpenseItem expenseItem: expenseMovementByItem.getExpenseSumByItem()){
+            System.out.println(expenseItem);
+        }
     }
 }
