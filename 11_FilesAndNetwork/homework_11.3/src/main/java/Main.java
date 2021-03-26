@@ -4,15 +4,13 @@ public class Main {
         Income income = new Income();
         String path = "D:\\Winfolders\\Documents\\skillbox\\java_basics\\11_FilesAndNetwork\\" +
                 "homework_11.3\\src\\test\\resources\\movementList.csv";
-        Movements expenseMovement = new Movements(path);
-        Movements incomeMovement = new Movements(path);
-        Movements expenseMovementByItem = new Movements(path);
-        expense.addSum(expenseMovement.getExpenseSum());
-        income.addSum(incomeMovement.getIncomeSum());
+        Movements movements = new Movements(path);
+        expense.addSum(movements.getExpenseSum());
+        income.addSum(movements.getIncomeSum());
         expense.printInfo();
         income.printInfo();
         System.out.println("\nСуммы расходов по организациям:");
-        for (ExpenseItem expenseItem: expenseMovementByItem.getExpenseSumByItem()){
+        for (ExpenseItem expenseItem: movements.getExpenseSumByItem()){
             System.out.println(expenseItem);
         }
     }

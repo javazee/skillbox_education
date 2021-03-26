@@ -7,99 +7,83 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Movements {
-    private final String pathMovementsCsv;
     private HashSet<ExpenseItem> expenseByItem;
+    private final List<String> lines ;
 
-    public Movements(String pathMovementsCsv) {
-        this.pathMovementsCsv = pathMovementsCsv;
+    public Movements(String path)  {
+        lines = getLines(path);
     }
 
     public double getExpenseSum() {
         double sum = 0;
-        try {
-            List<String> lines = Files.readAllLines(Paths.get(pathMovementsCsv));
-            String delimiter = ",(?=([^\"]*\"[^\"]*\")*(?![^\"]*\"))";
-            for (int i = 1; i < lines.size(); i++) {
-                String[] fragment = lines.get(i).split(delimiter);
-                if (fragment.length != 8) {
-                    System.out.println("Wrong line: " + lines.get(i));
-                } else {
-                    if (fragment[7].matches("\".+")){
-                        Pattern pattern = Pattern.compile("\\d*,\\d*");
-                        Matcher match = pattern.matcher(fragment[7]);
-                        if (match.find()) {
-                            sum += Double.parseDouble(match.group().replace(",","."));
-                        }
-                        continue;
+        String delimiter = ",(?=([^\"]*\"[^\"]*\")*(?![^\"]*\"))";
+        for (int i = 1; i < lines.size(); i++) {
+            String[] fragment = lines.get(i).split(delimiter);
+            if (fragment.length != 8) {
+                System.out.println("Wrong line: " + lines.get(i));
+            } else {
+                if (fragment[7].matches("\".+")){
+                    Pattern pattern = Pattern.compile("\\d*,\\d*");
+                    Matcher match = pattern.matcher(fragment[7]);
+                    if (match.find()) {
+                        sum += Double.parseDouble(match.group().replace(",","."));
                     }
-                    sum += Double.parseDouble(fragment[7]);
+                    continue;
                 }
+                sum += Double.parseDouble(fragment[7]);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         return sum;
     }
 
-        public double getIncomeSum() {
-            double sum = 0;
-            try {
-                List<String> lines = Files.readAllLines(Paths.get(pathMovementsCsv));
-                String delimiter = ",(?=([^\"]*\"[^\"]*\")*(?![^\"]*\"))";
-                for (int i = 1; i < lines.size(); i++) {
-                    String[] fragment = lines.get(i).split(delimiter);
-                    if (fragment.length != 8) {
-                        System.out.println("Wrong line: " + lines.get(i));
-                    } else {
-                        if (fragment[6].matches("\".+\"")){
-                            Pattern pattern = Pattern.compile("\\d*,\\d*");
-                            Matcher match = pattern.matcher(fragment[6]);
-                            if (match.find()) {
-                                String d = match.group().replace(",",".");
-                                sum += Double.parseDouble(d);
-                            }
-                            continue;
-                        }
-                        sum += Double.parseDouble(fragment[6]);
+    public double getIncomeSum() {
+        double sum = 0;
+        String delimiter = ",(?=([^\"]*\"[^\"]*\")*(?![^\"]*\"))";
+        for (int i = 1; i < lines.size(); i++) {
+            String[] fragment = lines.get(i).split(delimiter);
+            if (fragment.length != 8) {
+                System.out.println("Wrong line: " + lines.get(i));
+            } else {
+                if (fragment[6].matches("\".+\"")){
+                    Pattern pattern = Pattern.compile("\\d*,\\d*");
+                    Matcher match = pattern.matcher(fragment[6]);
+                    if (match.find()) {
+                        String d = match.group().replace(",",".");
+                        sum += Double.parseDouble(d);
                     }
+                    continue;
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+                sum += Double.parseDouble(fragment[6]);
             }
-            return sum;
+        }
+        return sum;
     }
 
     public HashSet<ExpenseItem> getExpenseSumByItem() {
         expenseByItem = new HashSet<>();
-        try {
-            List<String> lines = Files.readAllLines(Paths.get(pathMovementsCsv));
-            String delimiter = ",(?=([^\"]*\"[^\"]*\")*(?![^\"]*\"))";
-            for (int i = 1; i < lines.size(); i++) {
-                String[] fragment = lines.get(i).split(delimiter);
-                if (fragment.length != 8) {
-                    System.out.println("Wrong line: " + lines.get(i));
-                } else {
-                    double expenseSum;
-                    if (fragment[7].matches("\".+\"")){
-                        Pattern pattern = Pattern.compile("\\d*,\\d*");
-                        Matcher match = pattern.matcher(fragment[7]);
-                        if (match.find()) {
-                            expenseSum = Double.parseDouble(match.group().replace(",","."));
-                            if (expenseSum != 0) {
-                                expenseByItem.add(createExpenseItem(getItemName(fragment[5]), expenseSum));
-                            }
+        String delimiter = ",(?=([^\"]*\"[^\"]*\")*(?![^\"]*\"))";
+        for (int i = 1; i < lines.size(); i++) {
+            String[] fragment = lines.get(i).split(delimiter);
+            if (fragment.length != 8) {
+                System.out.println("Wrong line: " + lines.get(i));
+            } else {
+                double expenseSum;
+                if (fragment[7].matches("\".+\"")){
+                    Pattern pattern = Pattern.compile("\\d*,\\d*");
+                    Matcher match = pattern.matcher(fragment[7]);
+                    if (match.find()) {
+                        expenseSum = Double.parseDouble(match.group().replace(",","."));
+                        if (expenseSum != 0) {
+                            expenseByItem.add(createExpenseItem(getItemName(fragment[5]), expenseSum));
                         }
-                        continue;
                     }
-                    expenseSum = Double.parseDouble(fragment[7]);
-                    if (expenseSum != 0) {
-                        expenseByItem.add(createExpenseItem(getItemName(fragment[5]), expenseSum));
-                    }
+                    continue;
+                }
+                expenseSum = Double.parseDouble(fragment[7]);
+                if (expenseSum != 0) {
+                    expenseByItem.add(createExpenseItem(getItemName(fragment[5]), expenseSum));
                 }
             }
-        }
-        catch (IOException e){
-            e.printStackTrace();
         }
         return expenseByItem;
     }
@@ -123,5 +107,15 @@ public class Movements {
         if (match.find()){
             return match.group().trim();
         } else return name;
+    }
+
+    private List<String> getLines(String path) {
+        try {
+            return Files.readAllLines(Paths.get(path));
+        }
+        catch (IOException ex){
+            ex.printStackTrace();
+        }
+        return lines;
     }
 }
