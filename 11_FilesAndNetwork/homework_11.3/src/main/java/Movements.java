@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -6,15 +7,27 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 public class Movements {
     private HashSet<ExpenseItem> expenseByItem;
-    private final List<String> lines ;
+    private List<String> lines ;
+    private final String path;
+    private final long createTime;
 
     public Movements(String path)  {
-        lines = getLines(path);
+        this.path = path;
+        lines = getLines();
+        createTime = getTime();
+    }
+
+    private String getPath(){
+        return path;
     }
 
     public double getExpenseSum() {
+        if (!fileIsModified()){
+            lines = getLines();
+        }
         double sum = 0;
         String delimiter = ",(?=([^\"]*\"[^\"]*\")*(?![^\"]*\"))";
         for (int i = 1; i < lines.size(); i++) {
@@ -37,6 +50,9 @@ public class Movements {
     }
 
     public double getIncomeSum() {
+        if (!fileIsModified()){
+            lines = getLines();
+        }
         double sum = 0;
         String delimiter = ",(?=([^\"]*\"[^\"]*\")*(?![^\"]*\"))";
         for (int i = 1; i < lines.size(); i++) {
@@ -60,6 +76,9 @@ public class Movements {
     }
 
     public HashSet<ExpenseItem> getExpenseSumByItem() {
+        if (!fileIsModified()){
+            lines = getLines();
+        }
         expenseByItem = new HashSet<>();
         String delimiter = ",(?=([^\"]*\"[^\"]*\")*(?![^\"]*\"))";
         for (int i = 1; i < lines.size(); i++) {
@@ -109,13 +128,22 @@ public class Movements {
         } else return name;
     }
 
-    private List<String> getLines(String path) {
+    private List<String> getLines() {
         try {
-            return Files.readAllLines(Paths.get(path));
+            return Files.readAllLines(Paths.get(getPath()));
         }
         catch (IOException ex){
             ex.printStackTrace();
         }
         return lines;
+    }
+
+    private Long getTime(){
+        File file = new File(getPath());
+        return file.lastModified();
+    }
+
+    private Boolean fileIsModified(){
+        return getTime() == createTime;
     }
 }
