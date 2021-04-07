@@ -1,11 +1,19 @@
 public class Connection {
-    Station st1;
-    Station st2;
+    String line;
+    String station;
 
-    public Connection (Station st1, Station st2){
-        if (!st1.getLine().equals(st2.getLine())) {
-            this.st1 = st1;
-            this.st2 = st2;
-        }
+    public Connection (String line, String station){
+        this.line = line;
+        this.station = station;
     }
+
+    public String getLine() {
+        return line;
+    }
+
+    public String getStation() {
+        return station;
+    }
+
+
 }

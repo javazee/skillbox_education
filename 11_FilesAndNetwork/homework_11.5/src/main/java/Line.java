@@ -1,4 +1,5 @@
 public class Line {
+
     private final String name;
     private final String number;
 
