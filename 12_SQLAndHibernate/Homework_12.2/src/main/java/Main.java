@@ -14,11 +14,13 @@ public class Main {
         Metadata metadata = new MetadataSources(registry).getMetadataBuilder().build();
         SessionFactory sessionFactory = metadata.getSessionFactoryBuilder().build();
         Session session = sessionFactory.openSession();
-        String query = "select name, studentsCount from Course"; //
+        String query = "From Course where studentsCount is not null";
 
         @SuppressWarnings("unchecked")
         List<Course> courses = session.createQuery(query).list();
-
+        for (Course course: courses){
+            System.out.println(course.getName() + " - " + course.getStudentsCount() + " студентов");
+        }
         sessionFactory.close();
     }
 }

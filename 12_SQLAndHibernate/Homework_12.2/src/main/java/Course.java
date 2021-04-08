@@ -100,5 +100,4 @@ public class Course {
     public void setPricePerHour(float pricePerHour) {
         this.pricePerHour = pricePerHour;
     }
-
 }
