@@ -14,12 +14,12 @@ public class Main {
         Metadata metadata = new MetadataSources(registry).getMetadataBuilder().build();
         SessionFactory sessionFactory = metadata.getSessionFactoryBuilder().build();
         Session session = sessionFactory.openSession();
-        String query = "From Course where studentsCount is not null";
+        String query = "From Subscription";
 
         @SuppressWarnings("unchecked")
-        List<Course> courses = session.createQuery(query).list();
-        for (Course course: courses){
-            System.out.println(course.getName() + " - " + course.getStudentsCount() + " студентов");
+        List<Subscription> subscriptions = session.createQuery(query).list();
+        for (Subscription subscription: subscriptions){
+            System.out.println(subscription.getStudent().getName() + " - " + subscription.getCourse().getName());
         }
         sessionFactory.close();
     }
