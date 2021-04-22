@@ -128,14 +128,6 @@ public class Course {
         this.subscriptions.add(subscription);
     }
 
-    //    public List<Student> getStudents() {
-//        return students;
-//    }
-//
-//    public void setStudents(List<Student> students) {
-//        this.students = students;
-//    }
-
     @Override
     public String toString() {
         return name + " - " + studentsCount;
