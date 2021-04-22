@@ -12,7 +12,7 @@ public class Main {
             Connection connection = DriverManager.getConnection(url, user, password);
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("select course_name, " +
-                    "round((count(course_name))/((SELECT month(max(subscription_date))) - (SELECT month(min(subscription_date))) + 1), 3) " +
+                    "round((count(course_name))/((month(max(subscription_date))) - (month(min(subscription_date))) + 1), 3) " +
                     "as average_monthly_sales from purchaselist where year(subscription_date) = 2018 group by course_name;");
             while (resultSet.next()){
                 System.out.println(resultSet.getString("course_name") + " - " + resultSet.getString("average_monthly_sales") + " продаж в месяц");
