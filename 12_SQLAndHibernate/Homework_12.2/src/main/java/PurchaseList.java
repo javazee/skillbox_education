@@ -1,56 +1,48 @@
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
-@Entity ()
+@Entity
 @Table(name = "Purchaselist")
+@IdClass(PurchaseList.PurchaseId.class)
 public class PurchaseList {
-
-    public PurchaseList(){
-    }
 
     @Id
     @Column(name = "student_name")
+    @Getter
+    @Setter
     private String studentName;
 
+    @Id
     @Column(name = "course_name")
+    @Getter
+    @Setter
     private String courseName;
 
+    @Getter
+    @Setter
     private int price;
 
     @Column(name = "subscription_date")
     @Temporal(TemporalType.TIMESTAMP)
+    @Getter
+    @Setter
     private Date subscriptionDate;
 
-    public String getStudentName() {
-        return studentName;
-    }
+    @EqualsAndHashCode
+    @ToString
+    public static class PurchaseId implements Serializable{
+        @Getter
+        @Setter
+        private String studentName;
 
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
+        @Getter
+        @Setter
+        private String courseName;
     }
-
-    public String getCourseName() {
-        return courseName;
-    }
-
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public Date getSubscriptionDate() {
-        return subscriptionDate;
-    }
-
-    public void setSubscriptionDate(Date subscriptionDate) {
-        this.subscriptionDate = subscriptionDate;
-    }
-
 }

@@ -36,9 +36,6 @@ public class Course {
     @ElementCollection(targetClass=Subscription.class)
     private Set<Subscription> subscriptions = new HashSet<>();
 
-    public Course(){
-    }
-
     public void addStudent (Subscription student){
         this.subscriptions.add(student);
     }
