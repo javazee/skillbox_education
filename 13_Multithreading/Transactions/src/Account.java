@@ -1,7 +1,13 @@
 public class Account {
 
     private long money;
-    private String accNumber;
+    private int id;
+    private State state = State.Active;
+
+    public Account(int id, long money){
+        this.id = id;
+        this.money = money;
+    }
 
     public long getMoney() {
         return money;
@@ -11,11 +17,23 @@ public class Account {
         this.money = money;
     }
 
-    public String getAccNumber() {
-        return accNumber;
+    public State getState(){
+        return state;
     }
 
-    public void setAccNumber(String accNumber) {
-        this.accNumber = accNumber;
+    public void setState(State state){
+        this.state = state;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+}
+enum State{
+    Active,
+    Blocked
 }
