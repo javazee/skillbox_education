@@ -4,6 +4,20 @@ public class Main {
         //создание банка
         Bank giveMeMoney = new Bank();
 
+//        new Thread(()->{
+//            Account a = new Account(1, 60000);
+//            Account b = new Account(2, 60000);
+//            giveMeMoney.addAccount(a);
+//            giveMeMoney.addAccount(b);
+//            try {
+//                giveMeMoney.transfer(a.getId(), b.getId(), 40000);
+//                System.out.println(giveMeMoney.getBalance(a.getId()));
+//                System.out.println(giveMeMoney.getBalance(b.getId()));
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }).start();
+
         //создание 100 аккаунтов с балансом от 60000 до 100000 руб.
         for (int i = 0; i < 100; i++){
             long balance = Math.round(Math.random() * 40000 + 60000);

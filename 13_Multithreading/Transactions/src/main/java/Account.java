@@ -1,6 +1,8 @@
+import java.util.concurrent.atomic.AtomicLong;
+
 public class Account {
 
-    private long money;
+    private volatile long money;
     private int id;
     private State state = State.Active;
 
