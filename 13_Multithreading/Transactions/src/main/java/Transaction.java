@@ -1,4 +1,5 @@
 public class Transaction implements Runnable{
+
     private final Bank bank;
     private final Account accountSender;
     private final Account accountReceiver;

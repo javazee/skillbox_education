@@ -19,6 +19,26 @@ public class BankTest extends TestCase {
     }
 
     @Test
+    public void testTransfer() throws InterruptedException {
+        Bank bank = new Bank();
+        long balance = 60000;
+        long transactionSum = 55000;
+        for (int i = 0; i < 100; i++){
+            Account a = new Account(i,balance);
+            bank.addAccount(a);
+        }
+        for (int i = 0; i < 100; i++){
+            Account a = bank.getAccounts().get((int) Math.round(Math.random() * 99));
+            Account b = bank.getAccounts().get((int) Math.round(Math.random() * 99));
+            new Thread(new Transaction(bank, a, b, transactionSum)).start();
+        }
+        Thread.sleep(10000);
+        long actual = bank.getSumAllAccounts();
+        long expected = 6000000;
+        assertEquals(expected, actual);
+    }
+
+    @Test
     public void testTransferOnDeadLock() throws InterruptedException {
         bank.addAccount(a);
         bank.addAccount(b);
@@ -26,7 +46,7 @@ public class BankTest extends TestCase {
             new Thread(new Transaction(bank, a, b, 1000)).start();
             new Thread(new Transaction(bank, b, a, 1000)).start();
         }
-        Thread.sleep(10000);
+        Thread.sleep(1000);
         long actual = a.getMoney();
         long expected = 40000;
         assertEquals(expected, actual);
@@ -58,6 +78,18 @@ public class BankTest extends TestCase {
         assertEquals(expected, actual);
     }
 
+    @Test
+    public void testTransferFromOneAccount() throws InterruptedException {
+        bank.addAccount(a);
+        bank.addAccount(b);
+        new Thread(new Transaction(bank, a, b, 45000)).start();
+        Thread.sleep(1000);
+        new Thread(new Transaction(bank, a, b, 10000)).start();
+        Thread.sleep(1000);
+        long actual = a.getMoney();
+        long expected = 30000;
+        assertEquals(expected, actual);
+    }
 
     @Override
     protected void tearDown() throws Exception {

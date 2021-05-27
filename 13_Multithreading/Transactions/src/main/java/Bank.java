@@ -2,12 +2,11 @@ import java.util.*;
 
 public class Bank {
 
-    private volatile Map<Integer, Account> accounts = new LinkedHashMap<>();
+    private Map<Integer, Account> accounts = new LinkedHashMap<>();
 
     private final Random random = new Random();
 
-    public boolean isFraud()
-            throws InterruptedException {
+    public boolean isFraud() throws InterruptedException {
         Thread.sleep(100);
         return random.nextBoolean();
     }
