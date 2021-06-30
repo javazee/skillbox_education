@@ -17,7 +17,7 @@ public class Student {
     @Temporal(TemporalType.TIMESTAMP)
     private Date registrationDate;
 
-    @OneToMany(mappedBy = "primaryKey.course",
+    @OneToMany(mappedBy = "primaryKey.student",
             cascade = CascadeType.ALL)
     @ElementCollection(targetClass=Subscription.class)
     private Set<Subscription> subscriptions = new HashSet<>();

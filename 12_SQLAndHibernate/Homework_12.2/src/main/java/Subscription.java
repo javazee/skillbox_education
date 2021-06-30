@@ -1,4 +1,3 @@
-import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -18,7 +17,6 @@ public class Subscription {
 
     @Column(name = "subscription_date")
     @Temporal(TemporalType.TIMESTAMP)
-    @Getter
     @Setter
     private Date subscriptionDate;
 
@@ -47,6 +45,11 @@ public class Subscription {
 
     public void setStudentId(int id) {
         this.studentId = id;
+    }
+
+    @Transient
+    public Date getSubscriptionDate() {
+        return subscriptionDate;
     }
 }
 
