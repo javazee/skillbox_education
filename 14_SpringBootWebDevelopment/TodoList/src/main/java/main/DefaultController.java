@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 public class DefaultController {
     @RequestMapping("/")
-    public String index(){
-        return "Случайное число: " + Math.round(Math.random() * 1000);
+    public String index() {
+        return "index";
     }
 }
