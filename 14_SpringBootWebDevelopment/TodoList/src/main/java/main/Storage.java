@@ -42,6 +42,7 @@ public class Storage {
         Task newTask = tasks.get(taskId);
         if (newTask != null) {
             newTask.setTaskText(task.getTaskText());
+            newTask.setDescription(task.getDescription());
         } else {
             task.setId(taskId);
             tasks.put(taskId, task);

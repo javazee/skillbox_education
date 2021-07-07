@@ -5,6 +5,8 @@ public class Task {
 
     private String taskText;
 
+    private String description;
+
 
     public int getId() {
         return id;
@@ -20,5 +22,13 @@ public class Task {
 
     public void setTaskText(String taskText) {
         this.taskText = taskText;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description){
+        this.description = description;
     }
 }
