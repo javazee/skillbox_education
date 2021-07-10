@@ -38,7 +38,7 @@
 <br><br>
 <div id="task-list">
     <div th:each="task : ${tasks}">
-        <span class = "delete" th:attr="data-id=${task.id}" ></span>
+        <span class = "delete" th:attr="data-id=${task.id}" >&#10008</span>
         <a href = "#" class="task-link" th:attr="data-id=${task.id}" th:text="${task.taskText}"></a>
         <span class = "edit" th:attr="data-id=${task.id}" id="change-task-form" >edit</span>
     </div>

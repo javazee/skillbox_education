@@ -1,76 +1,65 @@
 package main;
 
 import main.model.Task;
+import main.model.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-
+import java.util.Optional;
 
 @RestController
-@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 public class TaskController {
 
     @Autowired
-    Storage storage;
+    private final TaskRepository taskRepository;
+
+    public TaskController(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
 
     @GetMapping("/tasks/")
     public List<Task> list() {
-        try {
-            return storage.getAllTasks().get();
-        } catch (ExecutionException | InterruptedException ex){
-            ex.printStackTrace();
+        Iterable<Task> taskIterable = taskRepository.findAll();
+        List<Task> taskList = new ArrayList<>();
+        for (Task task: taskIterable){
+            taskList.add(task);
         }
-        return null;
+        return taskList;
     }
 
     @PostMapping("/tasks/")
     public int add(Task task){
-        try {
-            return storage.addTask(task).get();
-        } catch (ExecutionException | InterruptedException ex) {
-            ex.printStackTrace();
-        }
-        return task.getId();
+       Task newTask = taskRepository.save(task);
+       return newTask.getId();
     }
 
     @GetMapping("/tasks/{id}")
     public ResponseEntity<?> get(@PathVariable int id) {
-        try {
-            Task task = storage.getTask(id).get();
-            if (task == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-            }
-            return new ResponseEntity<>(task, HttpStatus.OK);
-        } catch (ExecutionException | InterruptedException ex) {
-            ex.printStackTrace();
+        Optional<Task> optionalTask = taskRepository.findById(id);
+        if (!optionalTask.isPresent()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        return null;
+        return new ResponseEntity<>(optionalTask.get(), HttpStatus.OK);
+
     }
 
     @PutMapping("/tasks/{id}")
-    public int updateTask(Task newTask, @PathVariable int id) {
-        try {
-            return storage.updateTask(newTask, id).get();
-        } catch (ExecutionException | InterruptedException ex) {
-            ex.printStackTrace();
-        }
-        return id;
+    public int updateTask(Task task) {
+        Task updatedTask = taskRepository.save(task);
+        return updatedTask.getId();
     }
 
     @DeleteMapping("/tasks/{id}")
     public ResponseEntity<?> delete(@PathVariable int id) {
-        try {
-            boolean result = storage.deleteTask(id).get();
-            return result ? ResponseEntity.status(HttpStatus.OK).body(null) : ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        } catch (ExecutionException | InterruptedException ex) {
-            ex.printStackTrace();
+        Optional<Task> optionalTask = taskRepository.findById(id);
+        if (!optionalTask.isPresent()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        return null;
+        taskRepository.delete(optionalTask.get());
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 }
