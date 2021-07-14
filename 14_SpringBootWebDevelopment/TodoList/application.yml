@@ -2,3 +2,5 @@ spring.datasource.url: jdbc:mysql://localhost:3306/tasklib?&serverTimezone=UTC
 spring.datasource.username: root
 spring.datasource.password: password
 spring.jpa.hibernate.ddl-auto: update
+company:
+  name: The best web design company

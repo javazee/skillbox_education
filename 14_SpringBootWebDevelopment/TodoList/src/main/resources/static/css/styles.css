@@ -82,3 +82,11 @@ h4 {
     font-size: 8pt;
     text-decoration: underline;
 }
+
+#createdBy {
+    font-family: Comic Sans MS;
+    font-style: oblique;
+    font-size: 10pt;
+    position: absolute;
+    left: 40px;
+}

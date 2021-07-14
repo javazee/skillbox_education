@@ -33,7 +33,7 @@
     </form>
 </div>
 
-<h1>Список задач (<span th:text="${tasksCount}">0</span>)</h1>
+<h2>Список актуальных задач на<br><span style="color: red" th:text="${currentDate}"></span></h2>
 <button id="show-add-task-form">Добавить задачу</button>
 <br><br>
 <div id="task-list">
@@ -42,6 +42,12 @@
         <a href = "#" class="task-link" th:attr="data-id=${task.id}" th:text="${task.taskText}"></a>
         <span class = "edit" th:attr="data-id=${task.id}" id="change-task-form" >edit</span>
     </div>
+</div>
+<br>
+<br>
+<div id="createdBy">
+    <span>@created by </span>
+    <span th:text="${company}"></span>
 </div>
 </body>
 </html>
