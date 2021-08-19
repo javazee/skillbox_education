@@ -1,6 +1,7 @@
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,8 +35,9 @@ public class SaxHandler extends DefaultHandler {
                 workTime.addVisitTime(time.getTime());
                 int count = voterCounts.getOrDefault(voter, 0);
                 voterCounts.put(voter, count + 1);
+                DBConnection.createMultiInsert(voter.getName(), voter.getBirthDay());
             }
-        } catch (ParseException e) {
+        } catch (ParseException | SQLException e) {
             e.printStackTrace();
         }
     }
@@ -43,6 +45,13 @@ public class SaxHandler extends DefaultHandler {
     public void endElement(String uri, String localName, String qName) {
         if (qName.equals("voter")){
             voter = null;
+        } else if (voter == null){
+            try {
+                DBConnection.executeMultiInsert();
+                System.out.println(voterCounts.size());
+            } catch (SQLException a) {
+                a.printStackTrace();
+            }
         }
     }
 
